@@ -1,3 +1,7 @@
+# 146. LRU Cache
+# https://leetcode.com/problems/lru-cache/
+
+
 class Node:
     def __init__(self, key, val) -> None:
         self.key = key
