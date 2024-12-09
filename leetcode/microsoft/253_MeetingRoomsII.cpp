@@ -5,6 +5,14 @@ using namespace std;
 
 /*
 Observations:
+    - Sort the intervals, sorted for both start & end for the interval
+    - Create a MaxHeap (represents the on going meetings), where the meeting
+        that ends earliest is on top, so that it can be popped
+    - Before adding a new meeting to the MaxHeap, check if the earliest ending
+        meeting has already ended (do this until end time of the mettings in the
+        meeting room) are smaller than the 'start' time of current interval
+    - After adding an interval to the heap, update result as the max size of
+        heap discovered
 
 TODO:
 - How to create a min heap, with custom comparator (strictly 1st item in tuple,
