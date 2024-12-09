@@ -5,6 +5,11 @@ using namespace std;
 
 /*
 Observations:
+
+TODO:
+- How to create a min heap, with custom comparator (strictly 1st item in tuple,
+  or both items)
+- Sorting tuples -> and is time n.log(n)
 */
 
 class Solution
