@@ -1,4 +1,7 @@
+#include <algorithm>
+#include <functional>
 #include <iostream>
+#include <queue>
 #include <vector>
 
 using namespace std;
@@ -13,11 +16,6 @@ Observations:
         meeting room) are smaller than the 'start' time of current interval
     - After adding an interval to the heap, update result as the max size of
         heap discovered
-
-TODO:
-- How to create a min heap, with custom comparator (strictly 1st item in tuple,
-  or both items)
-- Sorting tuples -> and is time n.log(n)
 */
 
 class Solution
@@ -25,8 +23,33 @@ class Solution
 public:
     int minMeetingRooms(vector<vector<int>> &intervals)
     {
-        int x = 10;
-        return -1;
+        // Sort the intervals based on start time
+        sort(intervals.begin(), intervals.end());
+
+        // printMatrix(intervals);
+
+        int maxRooms = 0;
+
+        // Create a Max-Heap for all intervals
+        priority_queue<int, vector<int>, greater<int>> rooms;
+
+        // make_heap(rooms.begin(), rooms.end());
+        for (auto &interval : intervals) {
+            int start = interval[0];
+            int end = interval[1];
+
+            while (!rooms.empty() && rooms.top() <= start) {
+                rooms.pop();
+            }
+
+            // Add the current interval to rooms
+            rooms.push(end);
+
+            if (rooms.size() > maxRooms) {
+                maxRooms = rooms.size();
+            }
+        }
+        return maxRooms;
     }
 };
 
