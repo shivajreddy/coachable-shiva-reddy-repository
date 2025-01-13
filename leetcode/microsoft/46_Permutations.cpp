@@ -1,9 +1,7 @@
 // 46. Permutations
 // https://leetcode.com/problems/permutations
 
-#include <algorithm>
 #include <iostream>
-#include <utility>
 #include <vector>
 
 using namespace std;
