@@ -10,6 +10,7 @@
  */
 int* getFinalState(int* nums, int numsSize, int k, int multiplier,
                    int* returnSize) {
+
   int* x;
   return x;
 }
