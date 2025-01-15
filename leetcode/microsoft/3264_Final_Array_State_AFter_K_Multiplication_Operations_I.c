@@ -5,12 +5,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+class Solution:
+    def getFinalState(self, nums: List[int], k: int, multiplier: int) -> List[int]:
+
+        # Create a min-heap of given numbers along with their idx
+        arr = [(nums[i], i) for i in range(len(nums))]
+        heapq.heapify(arr)
+
+        # Perform k operations
+        for _ in range(k):
+            smallest, idx = heapq.heappop(arr)
+            nums[idx] = smallest * multiplier        # update nums
+            new_entry = (smallest * multiplier, idx) # update top-item
+            heapq.heappush(arr, new_entry)           # push back to min-heap
+
+        return nums
+*/
+
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
 int* getFinalState(int* nums, int numsSize, int k, int multiplier,
                    int* returnSize) {
-
   int* x;
   return x;
 }
