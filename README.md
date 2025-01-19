@@ -1,22 +1,6 @@
-# Coachable-Leetcode-Shiva Reddy
+# README
 
-- Leetcode solutions for Coachable program
+- Repo details:
+  [coachable-shiva-reddy-reopsitory](https://github.com/shivajreddy/coachable-shiva-reddy-reopsitory)
 
-## C++
-
-#### Requirements:
-
-    - 1. Unix shell
-    - 2. g++ compiler with c++17 standard
-
-- Open unix terminal, use WSL for windows. Run the following
-
-```bash
-./leetcode/runcpp.sh <path-to-cpp-file>
-```
-
-- Example:
-
-```bash
-./leetcode/runcpp.sh ./leetcode/microsoft/31_next_permutation.cpp
-```
+- Description: Leetcode solutions for Coachable program by Shiva
