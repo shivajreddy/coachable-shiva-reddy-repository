@@ -1,12 +1,8 @@
 // 339. Nested List Weight Sum
 // https://leetcode.com/problems/nested-list-weight-sum
 
-#include <stack>
-#include <string>
 #include <vector>
 
-using std::stack;
-using std::string;
 using std::vector;
 
 class NestedInteger {
@@ -36,8 +32,32 @@ class NestedInteger {
   const vector<NestedInteger>& getList() const;
 };
 
+/*
+
+Approach:
+using recursion to go item by item, if its a list call the recursive function with depth+1
+
+Time:  O(n) for n indiviusal integers in the given input
+Space: O(n) if considering the recursive call stack, else O(1)
+*/
+
 class Solution {
 
+ private:
+  int get_total(const vector<NestedInteger>& list, int depth) {
+    int result = 0;
+    for (auto item : list) {
+      if (item.isInteger()) {
+        result += (item.getInteger() * depth);
+      } else {
+        result += (get_total(item.getList(), depth + 1));
+      }
+    }
+    return result;
+  }
+
  public:
-  int depthSum(vector<NestedInteger>& nestedList) {}
+  int depthSum(vector<NestedInteger>& nestedList) {
+    return get_total(nestedList, 1);
+  }
 };
