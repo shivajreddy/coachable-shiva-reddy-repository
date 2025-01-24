@@ -33,7 +33,6 @@ Core Idea:
    - When encountering * or /, adjust 'prev_num' without immediately updating the 'result'.
    - For + and -, finalize the previous operation by adding 'prev_num' to 'result' and resetting 'prev_num'.
 
-
 Processing the String:
    - Iterate through the string, handling characters based on their type:
      - Digit: Parse and accumulate the current number.
@@ -42,6 +41,7 @@ Processing the String:
 */
 
 #include <cctype>
+
 class Solution {
  public:
   int calculate(string s) {
