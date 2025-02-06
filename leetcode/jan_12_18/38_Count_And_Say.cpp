@@ -4,6 +4,9 @@
 #include <string>
 using namespace std;
 
+/*
+Time : 2^n
+  */
 class Solution {
 
  public:
