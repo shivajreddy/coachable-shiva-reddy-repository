@@ -1,15 +1,6 @@
 // 708. Insert into a Sorted Circular Linked List
 // https://leetcode.com/problems/insert-into-a-sorted-circular-linked-list/
 
-/*
-struct Node {
-  int val;
-  struct TreeNode* next;
-};
-
-struct Node* insert(struct Node* head, int insertVal) {}
-*/
-
 #include <stdio.h>
 #include <initializer_list>
 
@@ -23,10 +14,48 @@ class Node {
 };
 
 class Solution {
+
  public:
   Node* insert(Node* head, int insertVal) {
-    // write solution here
-    return NULL;
+    // Edge case : null check
+    if (head == nullptr) {
+      Node* new_node = new Node(insertVal);
+      new_node->next = new_node;
+      return new_node;
+    }
+
+    // Edge case: single node (head->new same as new->head)
+    if (head->next == head) {
+      Node* new_node = new Node(insertVal);
+      head->next = new_node;
+      new_node->next = head;
+      return head;
+    }
+
+    Node* prev = head;
+    Node* curr = head->next;
+
+    while (curr != head) {
+      // insert new node b/w prev and curr
+      if (prev->val <= insertVal && insertVal <= curr->val) {
+        break;
+      }
+      // insert at tail
+      if (prev->val > curr->val) {
+        if (insertVal >= prev->val || insertVal <= curr->val) {
+          break;
+        }
+      }
+      prev = curr;
+      curr = curr->next;
+    }
+
+    // insert the new node
+    Node* new_node = new Node(insertVal);
+    prev->next = new_node;
+    new_node->next = curr;
+
+    return head;
   }
 };
 
@@ -37,7 +66,7 @@ void print_ll(Node* head) {
     printf("%d -> ", curr->val);
     curr = curr->next;
   }
-  printf("NULL\n");
+  printf("NULL");
 }
 void print_list(std::initializer_list<int> nums) {
   for (int num : nums) {
@@ -53,9 +82,13 @@ int main() {
 
   auto test = [](int test_no, Solution sol, Node* head, int insertVal,
                  std::initializer_list<int> expected) {
-    printf("TEST: %d\n", test_no);
-    sol.insert(head, insertVal);
+    printf("TEST::%d   ", test_no);
     print_ll(head);
+    printf(" | %d\n", insertVal);
+    head = sol.insert(head, insertVal);
+    printf("RECEIVED: ");
+    print_ll(head);
+    printf("\nEXPECTED: ");
     print_list(expected);
     printf("\n");
   };
