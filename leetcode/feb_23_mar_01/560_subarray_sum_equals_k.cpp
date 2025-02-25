@@ -23,11 +23,7 @@ class Solution {
       }
 
       // add current prefix to hashmap
-      if (hm.count(prefix_sum) > 0) {
-        hm[prefix_sum]++;
-      } else {
-        hm[prefix_sum] = 1;
-      }
+      hm[prefix_sum]++;
     }
 
     return result;
