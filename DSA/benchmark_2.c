@@ -29,21 +29,19 @@ delete methods.
 
 // Implement a Stack class with push, pop, peek operations.
 // Everything should be implemented in O(1) worst-case runtime using a singly
-// linked list to implement it. If you have questions about the requirements you
-// can ask me.
-
+// linked list to implement it.
 #include <stdio.h>
 #include <stdlib.h>
 
 // LINKED LIST NODE
 //------------------------------------------
-typedef struct LinkedListNode {
+typedef struct ListNode {
     int val;
-    struct LinkedListNode* next;
-} LinkedListNode;
+    struct ListNode* next;
+} ListNode;
 
-LinkedListNode* create_node(int val) {
-    LinkedListNode* node = malloc(sizeof(LinkedListNode));
+ListNode* create_node(int val) {
+    ListNode* node = malloc(sizeof(ListNode));
     if (!node) {
         fprintf(stderr, "ERROR: Failed to malloc for LinkedListNode\n");
         return NULL;
@@ -53,7 +51,7 @@ LinkedListNode* create_node(int val) {
     return node;
 }
 
-void remove_node(LinkedListNode* node) {
+void remove_node(ListNode* node) {
     // (for now no other clean up operations)
     // DeAllocate the memory for node
     free(node);
@@ -71,32 +69,17 @@ Implementation Details
 */
 
 typedef struct Stack {
-    LinkedListNode* top;
+    ListNode* top;
     size_t size;
 } Stack;
 
-// Time: O(1)
-void push(Stack* stack, int val) {
-    LinkedListNode* old_top = stack->top;        // node that is top of stack
-    LinkedListNode* new_node = create_node(val); // Create a new node
-    new_node->next = old_top;
-    stack->top = new_node; // set the new node as the top of stack
-    stack->size++;
-}
-
-// Time: O(1)
-void pop(Stack* stack) {
-    if (stack->size == 0) return;
-
-    LinkedListNode* node = stack->top;
-
-    stack->top = node->next;
-    remove_node(node); // DeAllocate the node
-    stack->size--;
-}
-
-// Time: O(1)
-LinkedListNode* peek(Stack* stack) { return stack->top; }
+// Forward Declarations
+Stack* create_stack();
+void remove_stack(Stack*);
+void push(Stack*, int);
+void pop(Stack*);
+ListNode* peek(Stack*);
+void print_stack(Stack*);
 
 Stack* create_stack() {
     // Allocate memory for the stack type
@@ -111,18 +94,39 @@ Stack* create_stack() {
 }
 
 void remove_stack(Stack* stack) {
-    // Remove(DeAllocate) all items in stack
-    for (size_t i = 0; i < stack->size; i++) {
+    for (size_t i = 0; i < stack->size; i++)
         pop(stack);
-    }
 
     // DeAllocate stack
     free(stack);
+    stack = NULL;
 }
 
-void print_stack(Stack* stack) {
+// Time: O(1)
+void push(Stack* stack, int val) {
+    ListNode* old_top = stack->top;        // node that is top of stack
+    ListNode* new_node = create_node(val); // Create a new node
+    new_node->next = old_top;
+    stack->top = new_node; // set the new node as the top of stack
+    stack->size++;
+}
+
+// Time: O(1)
+void pop(Stack* stack) {
     if (stack->size == 0) return;
-    LinkedListNode* curr = stack->top;
+
+    ListNode* node = stack->top;
+
+    stack->top = node->next;
+    remove_node(node); // DeAllocate the node
+    stack->size--;
+}
+
+// Time: O(1)
+ListNode* peek(Stack* stack) { return stack->top; }
+
+void print_stack(Stack* stack) {
+    ListNode* curr = stack->top;
     while (curr != NULL) {
         printf("%d -> ", curr->val);
         curr = curr->next;
@@ -130,3 +134,28 @@ void print_stack(Stack* stack) {
     printf("NULL\n");
 }
 //------------------------------------------
+
+int main() {
+    Stack* stack = create_stack();
+    printf("%p \n", (void*)stack);
+    print_stack(stack);
+
+    push(stack, 10);
+    print_stack(stack);
+
+    push(stack, 20);
+    print_stack(stack);
+
+    push(stack, 30);
+    print_stack(stack);
+
+    pop(stack);
+    print_stack(stack);
+
+    push(stack, 40);
+    print_stack(stack);
+
+    remove_stack(stack);
+    print_stack(stack);
+    printf("%p \n", (void*)stack);
+}
