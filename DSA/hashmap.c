@@ -2,10 +2,8 @@
 Implement Hashmap
  - The constructor should specify a max size for the hashmap.
  - Implement get/put operations.
- - Implement your own hashfunction. Don’t worry too much about getting an ideal
-   hash function, anything to start will work.
- - You can assume the keys are strings and values are integers. Mention this in
-   the typing of your functions.
+ - Implement your own hashfunction.
+ - You can assume the keys are strings and values are integers.
  - Please implement the collision handling using separate chaining (linked
    lists)
  - Do not worry about resizing for now.
@@ -20,6 +18,7 @@ Implement Hashmap
    without scanning all keys on each request.
 */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,23 +26,18 @@ Implement Hashmap
 #define MAX_KEY_LEN 256
 #define TABLE_SIZE 10
 
-typedef struct HashMap {
-  char* key;
-  int val;
-} HashMap;
-
 typedef struct Pair {
   char key[MAX_KEY_LEN];
   int val;
 } Pair;
 
-HashMap* init_hashmap() {
-  HashMap* hm = malloc(sizeof(HashMap));
-  if (!hm) {
-    printf("Allocating for hashmap failed\n");
-    return NULL;
+Pair* hash_table[TABLE_SIZE];
+
+void init_hashmap() {
+  // Initialize an empty hash table
+  for (int i = 0; i < TABLE_SIZE; i++) {
+    hash_table[i] = NULL;
   }
-  return hm;
 }
 
 unsigned int hash(char* key) {
@@ -53,6 +47,30 @@ unsigned int hash(char* key) {
     hash_val = (hash_val * key[i]) % TABLE_SIZE;
   }
   return hash_val;
+}
+
+void print_table() {
+  for (int i = 0; i < TABLE_SIZE; i++) {
+    if (hash_table[i] == NULL) {
+      printf("[NULL]");
+    } else {
+      printf("\t%s\t%i\n", hash_table[i]->key, hash_table[i]->val);
+    }
+  }
+  printf("\n");
+}
+
+bool put(Pair* pair) {
+  if (pair == NULL) return false;
+  int index = hash(pair->key);
+
+  // No-Collision
+  if (hash_table[index] == NULL) {
+    return true;
+  }
+
+  // Collision. Handle using linear propogation
+  return false;
 }
 
 int main() {
@@ -66,12 +84,11 @@ int main() {
   printf("Maren => %u\n", hash("Maren"));
   printf("Bill => %u\n", hash("Bill"));
 
+  print_table();
+
   printf("TESTING HASHMAP :: STARTED\n");
-  HashMap* hm = init_hashmap();
-  if (!hm) {
-    printf("Allocating for hashmap failed\n");
-    return EXIT_FAILURE;
-  }
+  init_hashmap();
+
   printf("TESTING HASHMAP :: FINISHED\n");
   return EXIT_SUCCESS;
 }
