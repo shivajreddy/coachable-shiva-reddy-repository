@@ -15,21 +15,21 @@ class Solution:
             <original_node_2> : <copy_node_2>
         }
         '''
-        visited = {}
-        visited[node] = Node(node.val)              # make a copy of root node
+        original_to_clone_map = {}
 
-        stack = [node]
+        stack = [node]  # original nodes that are to be cloned
 
         while stack:
 
             curr = stack.pop()
+            original_to_clone_map[node] = Node(curr.val)              # make a copy of root node
 
             for child in curr.neighbors:
-                if child not in visited:
+                if child not in original_to_clone_map:
                     stack.append(child)
                     child_copy = Node(child.val)
-                    visited[child] = child_copy
-                visited[curr].neighbors.append(visited[child])
+                    original_to_clone_map[child] = child_copy
+                original_to_clone_map[curr].neighbors.append(original_to_clone_map[child])
 
         
-        return visited[node]
+        return original_to_clone_map[node]
